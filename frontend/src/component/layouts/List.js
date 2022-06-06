@@ -1,60 +1,53 @@
-import React, { useState,useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import movie1 from '../../images/movie1.png'
-import movie2 from '../../images/movie2.png'
-import movie3 from '../../images/movie3.png'
-import movie4 from '../../images/movie4.png'
 import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
+function List() {
+const[lists,setLists]= useState([])
 
-function TV() {
-    const[movies,setMovies]=useState([])
-
-    useEffect(() => {
-     getmovie()
-    }, [])
-    
-    const config = {
+    const config={
         headers:{
             'access-token':localStorage.getItem('token')
         }
     }
-  
 
-    async function getmovie(){
+    useEffect(() => {
+     getWatchlist()
+    }, [])
+
+
+    async function getWatchlist(){
         try {
-            const data={
-                'type':'series'
-            }
-            const response = await axios.post('/frontend/movie/type',data,config)
+            const response = await axios.get('/watchlist',config)
             console.log(response.data)
-            setMovies(response.data)
+            setLists(response.data)
         } catch (error) {
             console.log(error.request.response)
         }
     }
-
+    
 
   return (
     <div className='movies-section'>
         <div className='movie-top-section'>
-            <div className='movie-header'>TV Shows</div>
+            <div className='movie-header'>My List</div>
             <div className='start-btn-section row mt-3 w-50'>
             <input type="text" className='start-input' placeholder='Email address'></input>
             <button className='btn-start d-flex align-items-center pl-3'>Search <i class="fa-solid fa-angle-right ml-3"></i> </button>
         </div>
+        
         <div className='row movies'>
-        {movies.map(movie=>{
+        {lists.map(list=>{
             return(
-                <Link className='col-md-3 col-sm-6 mt-5' to={`/movie-detail/${movie._id}`} >
+                <Link className='col-md-3 col-sm-6 mt-5' to="/show-detail">
                 <div className='movie-card'>
                  <div className='movie-image-container'>
                  <div className='movie-image '>
-                <img src={movie.image} className='img-fluid'/>
+                <img src={list.movie_id?.image} className='img-fluid'/>
                 </div>
                 <div className='movie-rating'><i class="fa-regular fa-star"></i> 6.8</div>
             </div>
-            <div className='movie-name'>{movie.name}</div>
+            <div className='movie-name'>{list.movie_id.name}</div>
             </div>
         </Link>
             )
@@ -67,6 +60,4 @@ function TV() {
   )
 }
 
-
-
-export default TV
+export default List

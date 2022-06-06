@@ -1,42 +1,40 @@
+import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import movie1 from '../../images/movie1.png'
-import movie2 from '../../images/movie2.png'
-import movie3 from '../../images/movie3.png'
-import movie4 from '../../images/movie4.png'
-import axios from 'axios'
 
+function New() {
 
-function Movies() {
-  const[movies,setMovies] = useState([])
+    const[movies,setMovies]=useState([])
 
-  useEffect(() => {
-   getmovie()
-  }, [])
-
-  const config = {
-      headers:{
-          'access-token':localStorage.getItem('token')
-      }
-  }
-
-  async function getmovie(){
-      try {
-          const data={
-              'type':'movie'
-          }
-          const response = await axios.post('/frontend/movie/type',data,config)
-          console.log(response.data)
-          setMovies(response.data)
-      } catch (error) {
-          console.log(error.request.response)
-      }
-  }
+    useEffect(() => {
+     getmovie()
+    }, [])
+    
+    const config = {
+        headers:{
+            'access-token':localStorage.getItem('token')
+        }
+    }
   
+
+    async function getmovie(){
+        try {
+          
+            const response = await axios.get('/frontend/new/movies',config)
+            console.log(response.data)
+            setMovies(response.data)
+        } catch (error) {
+            console.log(error.request.response)
+        }
+    }
+
+
+
+
   return (
     <div className='movies-section'>
         <div className='movie-top-section'>
-            <div className='movie-header'>Movies</div>
+            <div className='movie-header'>New</div>
             <div className='start-btn-section row mt-3 w-50'>
             <input type="text" className='start-input' placeholder='Email address'></input>
             <button className='btn-start d-flex align-items-center pl-3'>Search <i class="fa-solid fa-angle-right ml-3"></i> </button>
@@ -65,6 +63,4 @@ function Movies() {
   )
 }
 
-
-
-export default Movies
+export default New

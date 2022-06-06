@@ -5,9 +5,9 @@ const adminAuth = require('../Middleware/adminAuth')
 const User = require('../Model/User')
 const auth = require('../Middleware/auth')
 
-router.get('/',async(req,res)=>{
+router.get('/',auth,async(req,res)=>{
     try {
-        const movie =await  Movie.find().populate('genre_id')
+        const movie =await  Movie.find().populate('genre_id').populate('user_id')
         res.json(movie)
     } catch (error) {
         res.status(500).json(error.message)
@@ -133,12 +133,19 @@ console.log(req.body)
     }
 })
 
+router.get('/:id',auth, async(req,res)=>{
+    try {
+        const movie= await Movie.findById(req.params.id).populate('genre_id').populate('user_id')
+        res.json(movie)
+    } catch (error) {
+        res.status(500).json(error.message)
+    }
+})
+
+
+
 router.put('/update:id',async(req,res)=>{
     try {
-
-
-       
-
         const movie = await Movie.findByIdAndUpdate(req.params.id,{
             name:req.body.name,
             image:picture,
@@ -171,7 +178,7 @@ router.delete('/remove/:id',async(req,res)=>{
 
 router.get('/genre',auth,async(req,res)=>{
     try {
-        const movie = await Movie.find({'genre_id':req.body.genre_id})
+        const movie = await Movie.find({'genre_id':req.body.genre_id}).populate('genre_id')
         res.json(movie)
     } catch (error) {
         res.status(500).json(error.message)

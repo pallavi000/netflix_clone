@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt')
 var jwt = require('jsonwebtoken');
 const adminAuth = require('../Middleware/adminAuth')
 
-router.get('/',async(req,res)=>{
+router.get('/',adminAuth, async(req,res)=>{
     try {
         const user =await  User.find()
         res.json(user)
@@ -61,5 +61,30 @@ router.post('/login',async(req,res)=>{
 router.get('/admin',adminAuth,async(req,res)=>{
 res.json('success')
 })
+
+router.get('/:id',adminAuth,async(req,res)=>{
+    try {
+        const user = await User.findById(req.params.id)
+        res.json(user)
+    } catch (error) {
+       res.status.json(error.message)
+    }
+})
+
+
+router.put('/:id',adminAuth,async(req,res)=>{
+    try {
+        const user = await User.findByIdAndUpdate(req.params.id,{
+            username:req.body.username,
+            email:req.body.email
+        },{new:true})
+        res.json(user)  
+    } catch (error) {
+        res.status(500).json(error.message)
+    }
+})
+
+
+
 
 module.exports = router

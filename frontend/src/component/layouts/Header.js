@@ -44,10 +44,10 @@ function Header() {
           <Link class="nav-link" to="/movies">Movies</Link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">New</a>
+          <Link class="nav-link" to="/new">New</Link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">My List</a>
+          <Link class="nav-link" to="/my-list">My List</Link>
         </li>
 
     </ul>

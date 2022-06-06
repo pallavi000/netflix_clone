@@ -2,6 +2,7 @@ const express = require('express')
 const adminAuth = require('../Middleware/adminAuth')
 const router = express.Router()
 const Genre = require('../Model/Genre')
+const Movie = require('../Model/Movies')
 
 router.get('/',adminAuth,async(req,res)=>{
     try {
@@ -59,6 +60,8 @@ router.delete('/:id',adminAuth,async(req,res)=>{
     }
 
 })
+
+
 
 
 module.exports = router

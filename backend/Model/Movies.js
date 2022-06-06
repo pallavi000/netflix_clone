@@ -12,7 +12,9 @@ const movieSchema = new mongoose.Schema({
     videos:{type:Array},
     video:{type:String},
     trailer:{type:String},
-    user_id:{type:mongoose.Schema.Types.ObjectId,ref:'user'}
+    user_id:{type:mongoose.Schema.Types.ObjectId,ref:'user'},
+    stream:{type:Number,default:0},
+    watchListCount:{type:Number,default:0}
 })
 
 const Movie = mongoose.model('movie',movieSchema)

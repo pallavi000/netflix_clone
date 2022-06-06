@@ -9,10 +9,17 @@ function MovieIndex() {
    getmovies()
   }, [])
 
+  const config = {
+    headers:{
+      'access-token':localStorage.getItem('token')
+    }
+  }
+
  async  function getmovies(){
 try {
-  const response = await axios.get('/movie')
+  const response = await axios.get('/movie',config)
   console.log(response.data)
+  setMovies(response.data)
 } catch (error) {
   console.log(error.request.response)
 }
@@ -23,45 +30,49 @@ try {
   }
   return (
     <div className="content-wrapper">
-        <div className="container ">
+        <div className="">
         <Link className="btn btn-secondary float-right mb-2" to='/admin/movie/add' > Add</Link>
 
         <div className="table-responsive mt-5">
-        <table className="table table-light bg-white table-striped" id ="myTable">
-    <thead>
-    <tr className="trhead">
-        <th scope="col">Image</th>
-        <th scope="col">Name</th>
-        <th scope="col">Type</th>
-        <th scope="col">Genre</th>
-        <th scope="col">Duration</th>
-        <th scope="col">Release Date</th>
-        <th scope="col">Season</th>
-        <th scope="col">Episode</th>
-        
-        <th scope="col">Action</th>
-      </tr>
-    </thead>
-    
-    <tbody>
-    {movies.map(movie=>{
-        return(
+        <table>
+        <thead>
+            <tr className='table-head'>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Popularity/Interest</th>
+                <th>Watchlist</th>
+                <th>Stareams</th>
+                <th>Release Date </th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {movies.map(movie=>{
+          return(
+            <tr class="table-body">
+            <td className='row'><img src={movie.image} className='img-fluid table-image'/>{movie.name}</td>
+            <td >
+            {movie.genre_id.map(genre=>{
+              return(
+                <div className='table-category-flex'>
+                <div className="table-category">{genre.name}</div>
+                 </div>
+              )
+            })}
+            </td>
+            <td></td>
+            <td>2,34,567</td>
+            <td>{movie.stream}</td>
+            <td>{movie.release_date}</td>
+            <td><Link className="table-edit" to={`/admin/movie/edit/${movie._id}`}>Edit</Link></td>
+        </tr>
+          )
+        })}
+       
+       
 
-      <tr key={movie._id}>
-        <th scope="row">{movie._id}</th>
-        <td> {movie.image}</td>
-        
-        <td>
-        <Link className="btn btn-primary" to=''>Edit</Link>
-        <button className="btn btn-danger" onClick={(e)=>distroy(e)} >Delete</button>
-        </td>
-        
-      </tr>
-     
-      )})}
-    </tbody>
-  
-  </table>
+        </tbody>
+    </table>
     </div>
     </div>
     </div>
