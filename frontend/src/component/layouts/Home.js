@@ -1,10 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Header from '../layouts/Header'
 import frame1 from '../../images/frame1.png'
 import Footer from '../layouts/Footer'
 import Accordion from '../ui/Accordion'
+import { useNavigate } from 'react-router-dom'
 
 function Home() {
+    const navigate = useNavigate()
+    const[email,setEmail] = useState('')
+
+    function getstart(){
+        localStorage.setItem('email',email)
+        navigate('/sign-up')
+    }
   return (
       <>
     <div className='home-section d-flex justify-content-center align-items-center'>
@@ -14,8 +22,8 @@ function Home() {
         <div className='banner-subtitle'>Watch anywhere. Cancel anytime.</div>
         <div className='banner-description mt-3'>Ready to watch? Enter your email to create or restart your membership.</div>
         <div className='start-btn-section row mt-3 w-100'>
-            <input type="text" className='start-input' placeholder='Email address'></input>
-            <button className='btn-start'>Get Started </button>
+            <input type="text" className='start-input' onChange={(e)=>setEmail(e.target.value)} placeholder='Email address'></input>
+            <button className='btn-start' onClick={()=>getstart()}>Get Started </button>
         </div>
         </div>
     </div>

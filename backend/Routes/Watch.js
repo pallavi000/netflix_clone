@@ -6,7 +6,7 @@ const router = express.Router()
 
 router.get('/',auth,async(req,res)=>{
     try {
-        const list = await Watch.find({'user_id':req.user._id,}).populate('user_id').populate('movie_id')
+        const list = await Watch.find({'user_id':req.user._id,}).populate('movie_id').populate('user_id')
         res.json(list)   
     } catch (error) {
         res.status(500).json(error.message) 
@@ -19,7 +19,7 @@ router.post('/:id',auth,async(req,res)=>{
             movie_id:req.params.id,
             user_id:req.user._id
         })
-        var movie =await  Movie.findById(req.params.id)
+        var movie = await Movie.findById(req.params.id)
         movie.watchListCount=  movie.watchListCount+1
         await movie.save()
         list= await list.save()
@@ -29,14 +29,20 @@ router.post('/:id',auth,async(req,res)=>{
     }
 })
 
+
 router.delete('/:id',auth,async(req,res)=>{
     try {
-        const list = await Watch.findById(req.params.id)
-        const movie = await Movie.findById(watchlist.movie_id)
-        movie.watchListCount = movie.watchListCount-1
-        await watchlist.delete()
-        await movie.save()
-    } catch (error) {     
+        const list = await Watch.findOne({'user_id':req.user._id,'movie_id':req.params.id})
+        if(list) {
+            const movie = await Movie.findById(list.movie_id)
+            movie.watchListCount = movie.watchListCount-1
+            await list.delete()
+            await movie.save()
+        }
+
+        res.json('success')
+    } catch (error) {    
+        res.status(500).json(error.message) 
     }
 
 })

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function CreateMovie() {
     const[name,setName] = useState('')
@@ -15,6 +16,10 @@ function CreateMovie() {
     const[video,setVideo] = useState('')
     const[trailer,setTrailer] = useState('')
     const[genre_id,setGenre_id] = useState('')
+    const[is_series,setIs_series] = useState()
+    const[feature,setFeature] = useState(false)
+
+    const  navigate = useNavigate()
 
     const config={
       headers:{
@@ -52,9 +57,11 @@ function CreateMovie() {
        data.append('videos',videos)
        data.append('video',video)
        data.append('trailer',trailer)
+       data.append('feature',feature)
 
         var response = await axios.post('/movie/add-movie',data,config)
         console.log(response.data)
+        navigate(-1)
         
       } catch (error) {
         console.log(error.request.response)
@@ -65,19 +72,19 @@ function CreateMovie() {
   return (
     <div className="content-wrapper">
     <div className="container w-50 mx-auto">
-    <form onSubmit={(e)=>addmovie(e)}>
+    <div className='card py-5 px-3'>
+    <h2 className='pl-3'>Create Movie</h2>
+      <div className='card-body'>
+        <form onSubmit={(e)=>addmovie(e)}>
     <div className="form-group">
       <label htmlFor="formGroupExampleInput">Movie Name</label>
       <input type="text" className="form-control color"  name="name" onChange={(e)=>setName(e.target.value)}  id="formGroupExampleInput"  required/>
     </div>
     <div className="form-group">
       <label htmlFor="formGroupExampleInput">Detail</label>
-      <input type="text" className="form-control color"  name="detail" onChange={(e)=>setDetail(e.target.value)}  id="formGroupExampleInput" required/>
+      <textarea type="text" className="form-control color"  name="detail" onChange={(e)=>setDetail(e.target.value)}  id="formGroupExampleInput" required rows={3}></textarea>
     </div>
-    <div className="form-group">
-      <label htmlFor="formGroupExampleInput">Image</label>
-      <input type="file" className="form-control color"  name="image" onChange={(e)=>setImage(e.target.files[0])}  id="formGroupExampleInput"  required/>
-    </div>
+
 
     <div className="form-group">
       <label htmlFor="formGroupExampleInput">Type</label>
@@ -89,11 +96,11 @@ function CreateMovie() {
     </div>
     <div className="form-group">
       <label htmlFor="formGroupExampleInput">Release Date</label>
-      <input type="date" className="form-control color"  name="release_date" onChange={(e)=>setRelease_date(e.target.value)}  id="formGroupExampleInput" placeholder="Release date" required/>
+      <input type="date" className="form-control color"  name="release_date" onChange={(e)=>setRelease_date(e.target.value)}  id="formGroupExampleInput" placeholder="" required/>
     </div>
     <div className="form-group">
       <label htmlFor="formGroupExampleInput">Duration</label>
-      <input type="text" className="form-control color"  name="release_date" onChange={(e)=>setDuration(e.target.value)}  id="formGroupExampleInput" placeholder="movie duration" required/>
+      <input type="text" className="form-control color"  name="release_date" onChange={(e)=>setDuration(e.target.value)}  id="formGroupExampleInput" placeholder="" required/>
     </div>
 
     <div className="form-group">
@@ -104,38 +111,57 @@ function CreateMovie() {
      return(
           <option value={gen._id}>{gen.name}</option>
      )
-   })}
-          
+   })}  
       </select>
     </div>
-    <div className="form-group">
+
+{type=="series"?(
+<>
+<div className="form-group">
       <label htmlFor="formGroupExampleInput">Season No</label>
-      <input type="text" className="form-control color"  name="season_no" onChange={(e)=>setSeason_no(e.target.value)}  id="formGroupExampleInput" placeholder="Release date" required/>
+      <input type="text" className="form-control color"  name="season_no" onChange={(e)=>setSeason_no(e.target.value)}  id="formGroupExampleInput" placeholder="" required/>
     </div>
+    
 
     <div className="form-group">
       <label htmlFor="formGroupExampleInput">No of Episode</label>
-      <input type="text" className="form-control color"  name="no_of_episode" onChange={(e)=>setNo_of_episode(e.target.value)}  id="formGroupExampleInput" placeholder="No of Episode" required/>
+      <input type="text" className="form-control color"  name="no_of_episode" onChange={(e)=>setNo_of_episode(e.target.value)}  id="formGroupExampleInput" placeholder="" required/>
     </div>
+    
 
     <div className="form-group">
       <label htmlFor="formGroupExampleInput">Upload Videos</label>
-      <input type="file" className="form-control color"  name="videos" onChange={(e)=>setVideos(e.target.files[0])}  id="formGroupExampleInput" placeholder="No of Episode" required/>
+      <input type="file" className="form-control color"  name="videos" onChange={(e)=>setVideos(e.target.files[0])}  id="formGroupExampleInput" placeholder="" required/>
+    </div>
+</>
+):(null)}
+    
+
+<div className="form-group">
+      <label htmlFor="formGroupExampleInput">Image</label>
+      <input type="file" className="form-control color"  name="image" onChange={(e)=>setImage(e.target.files[0])}  id="formGroupExampleInput"  required/>
     </div>
 
     <div className="form-group">
       <label htmlFor="formGroupExampleInput">Upload Video</label>
-      <input type="file" className="form-control color"  name="video" onChange={(e)=>setVideo(e.target.files[0])}  id="formGroupExampleInput" placeholder="No of Episode" required/>
+      <input type="file" className="form-control color"  name="video" onChange={(e)=>setVideo(e.target.files[0])}  id="formGroupExampleInput" placeholder="" required/>
     </div>
 
     <div className="form-group">
       <label htmlFor="formGroupExampleInput">Upload Trailer</label>
       <input type="file" className="form-control color"  name="trailer" onChange={(e)=>setTrailer(e.target.files[0])}  id="formGroupExampleInput" placeholder="Upload Trailer" required/>
     </div>
-    
 
+    <div className='form-group'>
+      <input type="checkbox" onChange={()=>setFeature(!feature)}></input>
+      <span className='ml-2'>Feature this {type}</span>
+    </div>
+    
    <button type="submit" className="btn btn-primary">Submit</button>
   </form>
+      </div>
+    </div>
+   
     </div>
     </div>
   )

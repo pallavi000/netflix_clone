@@ -14,8 +14,10 @@ const movieSchema = new mongoose.Schema({
     trailer:{type:String},
     user_id:{type:mongoose.Schema.Types.ObjectId,ref:'user'},
     stream:{type:Number,default:0},
-    watchListCount:{type:Number,default:0}
+    watchListCount:{type:Number,default:0},
+    feature:{type:Boolean,default:false}
 })
+
 
 const Movie = mongoose.model('movie',movieSchema)
 module.exports= Movie

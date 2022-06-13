@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const listSchema= new mongoose.Schema({
     movie_id:{type:mongoose.Schema.Types.ObjectId,ref:'movie'},
-    user_Id:{type:mongoose.Schema.Types.ObjectId,ref:'user'},
+    user_id:{type:mongoose.Schema.Types.ObjectId,ref:'user'},
     count:{type:String}
 },{timestamps:true})
 

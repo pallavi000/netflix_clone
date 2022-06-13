@@ -9,7 +9,9 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.6.0",
     "mongoose": "^6.3.4",
-    "nodemon": "^2.0.16"
+    "nodemon": "^2.0.16",
+    "uuid": "^8.3.2",
+    "uuidv4": "^6.2.13"
   },
   "name": "backend",
   "version": "1.0.0",

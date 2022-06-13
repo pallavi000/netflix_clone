@@ -6,7 +6,7 @@ function EditMovie(props) {
     const[name,setName] = useState('')
     const[detail,setDetail] = useState('')
     const[image,setImage] = useState('')
-    const[type,setType] = useState('')
+    const[type,setMovieType] = useState('')
     const[release_date,setRelease_date] = useState('')
     const[duration,setDuration] = useState('')
     const[genre,setGenre] = useState([])
@@ -17,7 +17,7 @@ function EditMovie(props) {
     const[trailer,setTrailer] = useState('')
     const[genre_id,setGenre_id] = useState('')
     const[movie,setMovie] = useState({})
-
+    const[feature,setFeature] = useState(false)
     const params = useParams()
     const navigation = useNavigate()
 
@@ -31,16 +31,29 @@ function EditMovie(props) {
        getGenre()
        getmovie()
       }, [])
-console.log('props',props)
+    console.log('props',props)
       async function getmovie(){
           try {
             const response = await  axios.get('/movie/'+params.id,config)
             setMovie(response.data)
+            setName(response.data.name)
+            setDetail(response.data.detail)
+            setImage(response.data.image)
+            setRelease_date(response.data.release_date)
+            setDuration(response.data.duration)
+            setSeason_no(response.data.season_no)
+            setNo_of_episode(response.data.no_of_episode)
+            setVideo(response.data.video)
+            setVideos(response.data.videos)
+            setGenre_id(response.data.genre_id)
+            setFeature(response.data.feature)
+            setMovieType(response.data.type)
+          console.log(response.data.type)
+          
             console.log(response.data)
           } catch (error) {
               console.log(error.request.response)
           }
-         
       }
   
       async function getGenre(){
@@ -48,11 +61,9 @@ console.log('props',props)
         const response= await axios.get('/genre',config)
         setGenre(response.data)
       } catch (error) {
-        
       }
       }
       
-  
      async function editmovie(e){
        e.preventDefault()
         try {
@@ -69,8 +80,12 @@ console.log('props',props)
          data.append('videos',videos)
          data.append('video',video)
          data.append('trailer',trailer)
+         data.append('feature',feature)
+
+         console.log(data)
+
   
-          var response = await axios.post('/movie/add-movie',data,config)
+          var response = await axios.put('/movie/update/'+params.id,data,config)
           console.log(response.data)
           navigation(-1)
           
@@ -78,14 +93,14 @@ console.log('props',props)
           console.log(error.request.response)
         }
       }
-  
-
-
 
   return (
     <div className="content-wrapper">
     <div className="container w-50 mx-auto">
-    <form onSubmit={(e)=>editmovie(e)}>
+    <div className='card py-5 px-3'>
+    <h2 className='pl-3'>Edit Movie</h2>
+      <div className='card-body'>
+      <form onSubmit={(e)=>editmovie(e)}>
     <div className="form-group">
       <label htmlFor="formGroupExampleInput">Movie Name</label>
       <input type="text" className="form-control color"  name="name" defaultValue={movie.name} onChange={(e)=>setName(e.target.value)}  id="formGroupExampleInput"  required/>
@@ -96,15 +111,23 @@ console.log('props',props)
     </div>
     <div className="form-group">
       <label htmlFor="formGroupExampleInput">Image</label>
-      <input type="file" className="form-control color"  name="image" defaultValue={movie.image}  onChange={(e)=>setImage(e.target.files[0])}  id="formGroupExampleInput"  required/>
+      <input type="file" className="form-control color"  name="image"   onChange={(e)=>setImage(e.target.files[0])}  id="formGroupExampleInput"  required/>
     </div>
 
     <div className="form-group">
       <label htmlFor="formGroupExampleInput">Type</label>
-     <select className='form-control'  onChange={(e)=>setType(e.target.value)}>
+     <select className='form-control'  onChange={(e)=>setMovieType(e.target.value)}>
          <option value="">Select type</option>
-         <option value="movie" >Movie</option>
-         <option value="series">Series</option>
+        {movie.type=="movie"?(
+          <option value="movie" selected>Movie</option>
+        ):(
+          <option value="movie">Movie</option>
+        )}
+        {movie.type=="series"?(
+          <option value="series" selected>Series</option>
+        ):(
+          <option value="series">Series</option>
+        )}
      </select>
     </div>
     <div className="form-group">
@@ -122,15 +145,21 @@ console.log('props',props)
       <option value="">Select Genre</option>
    {genre.map(gen=>{
      return(
-          <option value={gen._id}>{gen.name}</option>
+      genre_id.includes(gen._id)?(
+        <option value={gen._id} selected>{gen.name}</option>
+      
+      ):(
+        <option value={gen._id}>{gen.name}</option>
+      )
      )
-   })}
-          
-      </select>
+   })}      
+       </select>
     </div>
-    <div className="form-group">
+    {movie.type=="series"?(
+      <>
+      <div className="form-group">
       <label htmlFor="formGroupExampleInput">Season No</label>
-      <input type="text" className="form-control color" defaultValue={movie.season_no} name="season_no" onChange={(e)=>setSeason_no(e.target.value)}  id="formGroupExampleInput" placeholder="Release date" required/>
+      <input type="text" className="form-control color" defaultValue={movie.season_no} name="season_no" onChange={(e)=>setSeason_no(e.target.value)}  id="formGroupExampleInput" placeholder="Season No" required/>
     </div>
 
     <div className="form-group">
@@ -140,22 +169,37 @@ console.log('props',props)
 
     <div className="form-group">
       <label htmlFor="formGroupExampleInput">Upload Videos</label>
-      <input type="file" className="form-control color"  name="videos" defaultValue={movie.videos} onChange={(e)=>setVideos(e.target.files[0])}  id="formGroupExampleInput" placeholder="No of Episode" required/>
+      <input type="file" className="form-control color"  name="videos" onChange={(e)=>setVideos(e.target.files[0])}  id="formGroupExampleInput" placeholder="No of Episode" required/>
     </div>
+      </>
+    ):(null)}
+    
 
     <div className="form-group">
       <label htmlFor="formGroupExampleInput">Upload Video</label>
-      <input type="file" className="form-control color"  name="video" defaultValue={movie.video} onChange={(e)=>setVideo(e.target.files[0])}  id="formGroupExampleInput" placeholder="No of Episode" required/>
+      <input type="file" className="form-control color"  name="video" onChange={(e)=>setVideo(e.target.files[0])}  id="formGroupExampleInput" placeholder="No of Episode" required/>
     </div>
 
     <div className="form-group">
       <label htmlFor="formGroupExampleInput">Upload Trailer</label>
-      <input type="file" className="form-control color" defaultValue={movie.trailer}  name="trailer" onChange={(e)=>setTrailer(e.target.files[0])}  id="formGroupExampleInput" placeholder="Upload Trailer" required/>
+      <input type="file" className="form-control color"  name="trailer" onChange={(e)=>setTrailer(e.target.files[0])}  id="formGroupExampleInput" placeholder="Upload Trailer" required/>
+    </div>
+
+    <div className='form-group'>
+    {movie.feature==true?(
+      <input type="checkbox" checked onChange={()=>setFeature(!feature)} defaultValue={movie.feature}/>
+    ):(
+      <input type="checkbox" onChange={()=>setFeature(!feature)} defaultValue={movie.feature}></input>
+
+    )}
+      <span>Feature this {movie.type}</span>
     </div>
     
-
    <button type="submit" className="btn btn-primary">Submit</button>
   </form>
+      </div>
+    </div>
+    
     </div>
     </div>
   )

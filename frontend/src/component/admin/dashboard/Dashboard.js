@@ -76,13 +76,38 @@ function Dashboard() {
         </div>
         <div>
         <div className="table-responsive mt-5">
+        <h3>Active Users</h3>
+        <table>
+        <thead>
+            <tr className='table-head'>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Subscription</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {users.map(user=>{
+          return(
+            <tr class="table-body">
+            
+            <td>{user.username}</td>
+            <td>{user.email}</td>
+            <td>{user.plan}</td>
+            <td><Link className="table-edit" to={`/admin/user/edit/${user._id}`}>Edit</Link></td>
+        </tr>
+          )
+        })}
+        </tbody>
+    </table>
+    </div>
+        <div className="table-responsive mt-5">
         <h3>Latest Movies</h3>
         <table>
         <thead>
             <tr className='table-head'>
                 <th>Name</th>
                 <th>Category</th>
-                <th>Popularity/Interest</th>
                 <th>Watchlist</th>
                 <th>Stareams</th>
                 <th>Release Date </th>
@@ -103,8 +128,8 @@ function Dashboard() {
               )
             })}
             </td>
-            <td></td>
-            <td>2,34,567</td>
+           
+            <td>{movie.watchListCount}</td>
             <td>{movie.stream}</td>
             <td>{movie.release_date}</td>
             <td><Link className="table-edit" to={`/admin/movie/edit/${movie._id}`}>Edit</Link></td>
@@ -125,7 +150,6 @@ function Dashboard() {
             <tr className='table-head'>
                 <th>Name</th>
                 <th>Category</th>
-                <th>Popularity/Interest</th>
                 <th>Watchlist</th>
                 <th>Stareams</th>
                 <th>Release Date </th>
@@ -146,8 +170,7 @@ function Dashboard() {
               )
             })}
             </td>
-            <td></td>
-            <td>2,34,567</td>
+            <td>{movie.watchListCount}</td>
             <td>{movie.stream}</td>
             <td>{movie.release_date}</td>
             <td><Link className="table-edit" to={`/admin/movie/edit/${movie._id}`}>Edit</Link></td>
@@ -160,6 +183,8 @@ function Dashboard() {
         </tbody>
     </table>
     </div>
+
+
         </div>
         </div>
 

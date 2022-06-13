@@ -52,7 +52,10 @@ function EditUser(props) {
   return (
     <div className="content-wrapper">
     <div className="container w-50 mx-auto">
-    <form onSubmit={(e)=>edituser(e)}>
+    <div className='card py-5 px-3'>
+    <h2 className='pl-3'>Edit User</h2>
+        <div className='card-body'>
+        <form onSubmit={(e)=>edituser(e)}>
     <div className="form-group">
       <label htmlFor="formGroupExampleInput">Username</label>
       <input type="text" className="form-control color"  defaultValue={user.username} onChange={(e)=>setUsername(e.target.value)}  id="formGroupExampleInput" placeholder="Username" required/>
@@ -63,6 +66,8 @@ function EditUser(props) {
     </div>
    <button type="submit" className="btn btn-primary">Submit</button>
   </form>
+        </div>
+    </div>
     </div>
     </div>
   )

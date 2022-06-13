@@ -1,12 +1,23 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import MovieList from '../ui/MovieList'
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import { Oval } from  'react-loader-spinner'
+import Pagination from "react-js-pagination";
+
 
 function New() {
 
     const[movies,setMovies]=useState([])
+    const [is_loader,setIs_loader] = useState(false)
+
+    const[pageno,setPageno]=  useState(1)
+    const[totalItems,setTotalItems] = useState(0)
+    const[itemsCountPerPage,setItemsContPerPage] = useState(12)
 
     useEffect(() => {
+        setIs_loader(true)
      getmovie()
     }, [])
     
@@ -19,47 +30,67 @@ function New() {
 
     async function getmovie(){
         try {
+            const data={
+                pageno,
+                itemsCountPerPage
+            }
           
-            const response = await axios.get('/frontend/new/movies',config)
-            console.log(response.data)
-            setMovies(response.data)
+            const response = await axios.post('/frontend/new/movies',data,config)
+            console.log(response.data.arr)
+            setMovies(response.data.arr)
+            setIs_loader(false)
+            setTotalItems(response.data.totalCount)
         } catch (error) {
             console.log(error.request.response)
         }
     }
 
+    function paginate(pageno){
+        setPageno(pageno)
+        getmovie()
+      }
 
 
 
   return (
+    is_loader?(
+        <Oval
+        height="100"
+        width="100"
+        color='#94142C'
+        ariaLabel='loading'
+        secondaryColor="#ddd"
+      />
+      ):(
     <div className='movies-section'>
+    
         <div className='movie-top-section'>
             <div className='movie-header'>New</div>
             <div className='start-btn-section row mt-3 w-50'>
             <input type="text" className='start-input' placeholder='Email address'></input>
-            <button className='btn-start d-flex align-items-center pl-3'>Search <i class="fa-solid fa-angle-right ml-3"></i> </button>
+            <button className='btn-start d-flex align-items-center '>Search <i class="fa-solid fa-angle-right ml-2"></i> </button>
         </div>
         <div className='row movies'>
         {movies.map(movie=>{
             return(
-                <Link className='col-md-3 col-sm-6 mt-5' to={`/movie-detail/${movie._id}`} >
-                <div className='movie-card'>
-                 <div className='movie-image-container'>
-                 <div className='movie-image '>
-                <img src={movie.image} className='img-fluid'/>
-                </div>
-                <div className='movie-rating'><i class="fa-regular fa-star"></i> 6.8</div>
-            </div>
-            <div className='movie-name'>{movie.name}</div>
-            </div>
-        </Link>
+                <MovieList movie={movie}/>
             )
         })}
         
            
         </div>
         </div>
+        <Pagination
+          activePage={pageno}
+          itemsCountPerPage={itemsCountPerPage}
+          totalItemsCount={totalItems}
+          pageRangeDisplayed={5}
+          onChange={(e)=>paginate(e)}
+          itemClass="page-item"
+            linkClass="page-link"
+        />
     </div>
+      )
   )
 }
 

@@ -5,7 +5,6 @@ import axios from 'axios'
 function AdminProtected(props) {
   const navigate = useNavigate()
 
-
   
 async function getadmin(){
   const config={
@@ -13,6 +12,7 @@ async function getadmin(){
       'access-token':localStorage.getItem('token')
     }
   }
+
 
   try {
     var response = await axios.get('user/admin/',config)

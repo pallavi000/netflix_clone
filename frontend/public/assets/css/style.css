@@ -22,14 +22,16 @@ html,body{
 
 .btn-signin{
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 400;
     color: white;
     background-color: var(--primary-color);
     padding:8px 15px;
     border-radius: 5px;
-    border: 0px;
-    
-    
+    border: 0px;  
+}
+.btn-signin:hover{
+  text-decoration: none;
+  color: white;
 }
 .header-section{
     padding: 10px 20px;
@@ -90,10 +92,16 @@ font-weight: 600;
     color: #8C8C8C;
     width: 75%;
     /* width: 50%; */
-    padding: 5px;
+    padding: 11px;
     height: 55px;
     border: 0px;
     outline: 0px;
+}
+.start-btn-section button{
+  padding-right: 3rem;
+  padding-left: 3rem !important;
+  display: flex;
+  justify-content: center;
 }
 
 
@@ -232,7 +240,8 @@ font-weight: 600;
 
   .login-section{
       background-image: url('../image/banner1.png');
-      height: 100vh;
+      min-height: calc(100vh + 115px);
+      padding-bottom: 50px;
   }
   .login-section{
     display: flex;
@@ -248,16 +257,21 @@ font-weight: 600;
     background: rgba(0, 0, 0, 0.75);
     padding: 4rem 2rem;
     width: 40%;
+    margin-top: 95px;
   }
   .login-title{
     font-style: normal;
     font-weight: 700;
     font-size: 32px;
     line-height: 44px;
+    margin-bottom: 2rem;
   }
   .login-form{
-    padding: 2rem!important;
-    width: 100%;
+    padding: 2rem 1rem!important;
+    width: 90%;
+  }
+  .login-form .form-group{
+    margin-bottom: 1.5rem !important;
   }
   .login-form input{
     font-weight: 400;
@@ -280,9 +294,9 @@ font-weight: 600;
     width: 100%;
     color: white;
     font-weight: 700;
-    padding: 12px;
-    margin-bottom: 8px;
-    margin-top: 30px;
+    padding: 16px;
+    margin-bottom: 1rem;
+    margin-top: 25px;
     border: 0px;
   }
   .remember-me{
@@ -299,11 +313,19 @@ font-weight: 600;
     line-height: 22px;
     letter-spacing: -0.01em;
     color: #737373;
-    margin-top: 15px;
+    margin-top: 26px;
   }
   .learn-more-section span{
       color: white;
       cursor: pointer;
+  }
+  .new-login{
+    color: #737373;
+    text-decoration: none;
+  }
+  .new-login:hover{
+    text-decoration: none;
+    color: #737373;
   }
   .show-section{
       background-image: url('../image/banner3.png');
@@ -314,6 +336,8 @@ font-weight: 600;
     color: white;
     padding: 4rem;
     padding-bottom: 0px;
+    background-repeat: no-repeat;
+    background-size: cover;
   }
   .show-header{
     font-size: 80px;
@@ -359,7 +383,7 @@ font-weight: 600;
   }
   .show-category-section{
    transform: translateY(-110px);
-    padding: 1rem 4rem;
+    padding: 1rem 2rem;
     color: white;
   }
   .see-again-text{
@@ -368,9 +392,24 @@ font-weight: 600;
     font-size: 20px;
     line-height: 32px;
     margin-bottom: 1.5rem;
+    color: white;
+    display: flex;
+    align-items: center;
+  }
+  .see-again-text:hover{
+    text-decoration: none;
+    color: white;
   }
   .show-card{
       margin-bottom: 3rem;
+      height: 146px;
+      width: 100%;
+  }
+  .show-card img{
+    height: 146px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 4px;
   }
   .movies-section{
     background:  linear-gradient(180deg, rgba(20, 20, 20, 0.5) 0%, #141414 0.48%);
@@ -394,6 +433,7 @@ font-weight: 600;
     color: #EBEEF5;
     font-weight: 600;
   }
+
   .movie-image-container img{
     height: 400px;
     width: 100%;
@@ -409,6 +449,7 @@ font-weight: 600;
     border-radius: 8px;
     padding: 6px 8px;
     color: #FFAD49;
+
   }
   .movie-name{
     padding: 1rem 1rem;
@@ -419,6 +460,10 @@ font-weight: 600;
   }
   .movie-image{
     padding: 0.7rem;
+  }
+  .star-img{
+    height: 16px !important;
+    width: 16px !important;
   }
   .col-md-3{
     padding-left: 0px !important;
@@ -508,7 +553,7 @@ color: white;
 .nav-link{
   font-style: normal;
 font-weight: 400;
-font-size: 22px !important;
+font-size: 20px !important;
 margin-right: 1rem !important;
 
 /* identical to box height, or 143% */
@@ -522,7 +567,12 @@ font-weight: 600;
 table{
   width: 100%;
   border: 1px solid #E0E0E0;
+  border-collapse: collapse !important;
+  border-spacing: 0 !important;
 
+}
+.image-td{
+  width: 100px !important;
 }
 thead{
   background: #F5F5F5 !important;
@@ -535,16 +585,16 @@ tbody{
   background-color: white !important;
 }
 tbody tr{
-  font-weight: 500;
-  padding: 1rem;
-  border-bottom: 1px solid #E0E0E0;
+  font-weight: 500 !important;
+  padding: 1rem !important;
+  border-bottom: 1px solid #E0E0E0 !important;
 }
 tbody td{
-  padding: 1.5rem 1rem;
+  padding: 1.5rem 2rem !important;
 }
 .table-category-flex{
-  display: flex;
-  gap: 1rem;
+  display: flex !important;
+  gap: 1rem !important;
 }
 .table-category{
   background: #D1D8F7;
@@ -564,9 +614,110 @@ tbody td{
 }
 
 .dashboard-table-image{
-  height: 80px;
+  height: 80px !important;
   width: 80px;
   border-radius: 40px;
   border: 1px solid #c4c4c4;
   margin-right: 12px;
+}
+.forgot-password{
+  font-size: 17px;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+.table-image{
+  height: 100px !important;
+  width: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 0.5px solid #c4c4c4;
+}
+.subscription-section{
+  background: rgba(18, 24, 41, 0.8);
+  color: white;
+  padding: 8rem 2rem;
+}
+.subscription-header{
+  font-weight: 600;
+  font-size: 48px;
+  line-height: 56px;
+}
+.subscription-recommend{
+  font-style: normal;
+    font-weight: 400;
+    font-size: 26px;
+    align-items: center;
+    gap: 1rem;
+    margin: 1rem 0rem;
+}
+
+.subscription-select{
+  color: #757575 !important;
+  height: 4rem !important;
+  margin-top: 5rem !important;
+  width: 50% !important;
+  font-size: 19px !important;
+  font-weight: 500 !important;
+}
+
+div[data-testid="oval-loading"]{
+  padding: 3px;
+  height: 100vh;
+  /* margin: auto; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.pagination{
+  display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    margin-top: 3rem !important;
+}
+.account-section{
+  height: 100vh;
+  padding: 4rem;
+    margin-top: 2rem;
+}
+.account-header{
+  font-size: 2.5rem;
+    font-weight: 400;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #333;
+}
+.account-detail{
+  padding: 20px 0rem;
+  border-bottom: 1px solid #c4c4c4;
+  margin-top: 10px;
+}
+.color-dark{
+  color:#757575;
+}
+
+.membership-section-heading{
+  color: #757575;
+  font-weight: 500;
+  padding: 0;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  font-size: 1.3rem;
+
+}
+.account-section-item{
+  margin-bottom: 15px;
+  color: #757575;
+  font-size: 20px;
+}
+.account-section-link{
+  color: #0073e6;
+  display: inline;
+  padding-right: 0;
+  border-top: none;
+  padding-top: 5px;
+  font-size: 20px;
+  text-decoration: none;
+}
+.account-section-link:hover{
+  text-decoration: none;
+  font-size: 20px;
 }

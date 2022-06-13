@@ -2,6 +2,7 @@ import React from 'react'
 import { Link,  useNavigate } from 'react-router-dom'
 import logo from '../../images/Logo.png'
 import Sidebar from '../admin/Sidebar'
+import Subscription from './Subscription'
 
 function Header() {
   const navigate= useNavigate()
@@ -25,7 +26,7 @@ function Header() {
   return (
     user && user.role=='admin'?(
       <Sidebar/>
-    ):user?(
+    ):user && user.plan=="premium"?(
       <div className='container-fluid header-section' >
         <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
   <Link class="navbar-brand" to="/"><img src={logo} className="img-fluid"/></Link>

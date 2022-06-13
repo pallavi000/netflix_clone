@@ -1,4 +1,4 @@
-import React,{useEffect, useLayoutEffect, useState} from 'react'
+import React,{useEffect,  useState} from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
@@ -25,6 +25,7 @@ function SignIn(e) {
    }
   }, [])
 
+ 
   async function login(e){
     e.preventDefault()
     try {
@@ -43,7 +44,7 @@ function SignIn(e) {
       console.log('frontend')
     }
   }
-
+ 
 
   return (
     <div className='login-section'>
@@ -57,12 +58,14 @@ function SignIn(e) {
             <input type="password" onChange={(e)=>setPassword(e.target.value)} placeholder='Password' required/>
             </div>
             <button className='btn-login'>Sign In</button>
-            <div className='d-flex justify-content-between align-items-center'>
+            {/* <div className='d-flex justify-content-between align-items-center'>
                 <div className='remember-me'>Remember me</div>
                 <div className='remember-me'>Need help?</div>
-            </div>
+            </div> */}
+            <Link className='forgot-password' to="/forgot-password">
+              Forgot Password ?
+            </Link>
             </form>
-
             <div className='learn-more-section'>
                 <Link className='new-login' to="/sign-up">New to Netflix?<span> Sign up now.</span></Link>
             </div>
