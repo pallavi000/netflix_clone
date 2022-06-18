@@ -67,8 +67,11 @@ function Shows() {
             </div>
             <div className='show-header'>{feature.name}</div>
             <div className='d-flex'>
-                <div className='show-play'><i class="fa-solid fa-play mr-2"></i> Play</div>
-                <div className='show-more-info'> <i class="fa-solid fa-circle-info mr-2"></i>More-info</div>
+            <Link className='show-play' 
+                 to={'/video-player'}
+                 state={feature.video}
+                ><i class="fa-solid fa-play mr-2"></i> Play</Link>
+                <Link className='show-more-info' to={`/movie-detail/${feature._id}`}> <i class="fa-solid fa-circle-info mr-2"></i>More-info</Link>
             </div>
             </div>
         </div>

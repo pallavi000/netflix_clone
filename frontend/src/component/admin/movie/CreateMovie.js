@@ -1,6 +1,8 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import * as Toastr from 'toastr';
+import '../../../../node_modules/toastr/build/toastr.css'
 
 function CreateMovie() {
     const[name,setName] = useState('')
@@ -18,6 +20,8 @@ function CreateMovie() {
     const[genre_id,setGenre_id] = useState('')
     const[is_series,setIs_series] = useState()
     const[feature,setFeature] = useState(false)
+    const[isLoading,setIsLoading] = useState(false)
+
 
     const  navigate = useNavigate()
 
@@ -43,6 +47,7 @@ function CreateMovie() {
 
    async function addmovie(e){
      e.preventDefault()
+     setIsLoading(true)
       try {
        const data = new FormData()
        data.append('name',name)
@@ -54,17 +59,22 @@ function CreateMovie() {
        data.append('genre_id',genre_id)
        data.append('no_of_episode',no_of_episode)
        data.append('season_no',season_no)
-       data.append('videos',videos)
        data.append('video',video)
        data.append('trailer',trailer)
        data.append('feature',feature)
-
+      for (const video of videos) {
+        data.append('videos',video)
+      }
         var response = await axios.post('/movie/add-movie',data,config)
         console.log(response.data)
+        Toastr.success('Movie added')
+        setIsLoading(false)
         navigate(-1)
         
       } catch (error) {
         console.log(error.request.response)
+        Toastr.error(error.request.response)
+        setIsLoading(false)
       }
     }
 
@@ -72,6 +82,11 @@ function CreateMovie() {
   return (
     <div className="content-wrapper">
     <div className="container w-50 mx-auto">
+    <div className='card'>
+        <div className='card-body text-right'>
+            <button className='btn btn-info' onClick={()=>navigate(-1)}>Back</button>
+        </div>
+    </div>
     <div className='card py-5 px-3'>
     <h2 className='pl-3'>Create Movie</h2>
       <div className='card-body'>
@@ -131,7 +146,7 @@ function CreateMovie() {
 
     <div className="form-group">
       <label htmlFor="formGroupExampleInput">Upload Videos</label>
-      <input type="file" className="form-control color"  name="videos" onChange={(e)=>setVideos(e.target.files[0])}  id="formGroupExampleInput" placeholder="" required/>
+      <input type="file" className="form-control color"  name="videos" onChange={(e)=>setVideos(e.target.files)}  id="formGroupExampleInput" placeholder="" required multiple/>
     </div>
 </>
 ):(null)}
@@ -156,8 +171,11 @@ function CreateMovie() {
       <input type="checkbox" onChange={()=>setFeature(!feature)}></input>
       <span className='ml-2'>Feature this {type}</span>
     </div>
-    
-   <button type="submit" className="btn btn-primary">Submit</button>
+    {isLoading?(
+      <button type="submit" className="btn btn-start loading-btn" disabled>Submit</button>
+    ):(
+      <button type="submit" className="btn btn-start">Submit</button>
+    )}
   </form>
       </div>
     </div>

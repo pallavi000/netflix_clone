@@ -20,7 +20,7 @@ router.get('/',auth,async(req,res)=>{
 router.post('/add-movie',adminAuth, async(req,res)=>{
     try {
         let picture=' '
-        let videos= ' '
+        let videos= []
         let video =' '
         let trailer=' '
 
@@ -51,7 +51,7 @@ router.post('/add-movie',adminAuth, async(req,res)=>{
                 const movieName = new Date().getDate()+r+'.'+movie.name.split('.').pop()
                 console.log('movie')
 
-                 video = '/assets/video/'+movieName
+                 video = '/assets/movie/'+movieName
                 const uploadPath = process.env.movie_UPLOAD_PATH+"/"+movieName
 
                 var isError = false
@@ -68,23 +68,27 @@ router.post('/add-movie',adminAuth, async(req,res)=>{
             }
 
             if(req.files.videos){
-                const series = req.files.videos
-                console.log(series)
-                var r = Math.random()
-                var is_error = false
-                r = r.toString().replace('.','-')
-                const seriesName = new Date().getDate()+r+'.'+series.name.split(".").pop()
-                console.log('series')
-                 videos = '/assets/series/'+seriesName
-                const uploadPath = process.env.SERIES_UPLOAD_PATH+"/"+seriesName
-
-                series.mv(uploadPath,(error)=>{
-                    is_error = error
+                req.files.videos.map(video=>{
+                    const series = video
+                    console.log(series)
+                    var r = Math.random()
+                    var is_error = false
+                    r = r.toString().replace('.','-')
+                    const seriesName = new Date().getDate()+r+'.'+series.name.split(".").pop()
+                    console.log('series')
+                     var arr = '/assets/series/'+seriesName
+                     videos.push(arr)
+                    const uploadPath = process.env.SERIES_UPLOAD_PATH+"/"+seriesName
+    
+                    series.mv(uploadPath,(error)=>{
+                        is_error = error
+                    })
+                    if(is_error){
+                        return res.status(500).json(is_error)
+    
+                    }
                 })
-                if(is_error){
-                    return res.status(500).json(is_error)
-
-                }
+               
             }
     
             if(req.files.trailer){
@@ -196,7 +200,7 @@ router.put('/update/:id',auth,async(req,res)=>{
                 const movieName = new Date().getDate()+r+'.'+movie.name.split('.').pop()
                
 
-               var  video = '/assets/video/'+movieName
+               var  video = '/assets/movie/'+movieName
                 const uploadPath = process.env.movie_UPLOAD_PATH+"/"+movieName
 
                 var isError = false

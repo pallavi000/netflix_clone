@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 function ShowUi({movie}) {
     console.log(movie)
@@ -71,6 +72,24 @@ function ShowUi({movie}) {
                }
               </div>
           </div>
+
+          {movie.videos && movie.videos.length!=0?(
+            movie.videos.map((video, index)=>{
+            return(
+              <>
+              <h6  className='text-white d-block '>Episode {index+1}</h6>
+              <div className='d-flex mb-3'>
+                <Link className='show-play' 
+                 to={'/video-player'}
+                 state={video}
+                ><i class="fa-solid fa-play mr-2"></i> Play</Link>
+                <div className='show-more-info'> <i class="fa-solid fa-circle-info mr-2"></i>More-info</div>
+            </div>
+              </>
+            )
+          })
+          ):(null)}
+          
       </div>
 
       </div>

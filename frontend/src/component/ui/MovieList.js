@@ -39,10 +39,10 @@ function MovieList({movie}) {
     <img src={movie.image} className='img-fluid'/>
     </div>
     {isList?(
-        <div className='movie-rating' onClick={(e)=>removeFromList(e,movie._id)}><i class="fa-solid fa-star"></i> 6.8</div>
+        <div className='movie-rating' onClick={(e)=>removeFromList(e,movie._id)}><i class="fa-solid fa-star"></i></div>
 
     ):(
-        <div className='movie-rating' onClick={(e)=>addtoList(e,movie._id)}><i class="fa-regular fa-star"></i> 6.8</div>
+        <div className='movie-rating' onClick={(e)=>addtoList(e,movie._id)}><i class="fa-regular fa-star"></i></div>
 
     )}
 </div>

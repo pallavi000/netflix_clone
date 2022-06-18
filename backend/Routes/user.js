@@ -27,8 +27,9 @@ router.post('/register',async(req,res)=>{
             password:hashPassword,
             role:req.body.role
         })
+        var token = await jwt.sign({ _id: user._id,email:user.email,role:user.role }, 'netflix');
        user = await user.save()
-       res.json(user)
+       res.json({user,token})
         
     } catch (error) {
         res.status(500).json(error.message)
@@ -48,14 +49,14 @@ router.post('/login',async(req,res)=>{
                 res.json({token:token,user:user})
                 
             }else{
-                res.status(400).json('login failed!,Invalid Password')
+                res.status(400).json('login failed!Invalid Password')
             }
         }else{
-            res.json('user not found')
+            res.status(404).json('user not found')
         }
         
     } catch (error) {
-        res.json(error.message)
+        res.status(500).json(error.message)
     }
    
 })
@@ -71,7 +72,7 @@ router.get('/:id',adminAuth,async(req,res)=>{
         const user = await User.findById(req.params.id)
         res.json(user)
     } catch (error) {
-       res.status.json(error.message)
+       res.status(500).json(error.message)
     }
 })
 

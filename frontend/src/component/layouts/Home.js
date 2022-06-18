@@ -28,7 +28,7 @@ function Home() {
         </div>
     </div>
     </div>
-    <div className='movie-category row py-3'>
+    <div className='movie-category row '>
         <div className='movie-category-detail'>
             <div className='movie-category-detail-title'>Enjoy on your TV.</div>
             <div className='movie-category-detail-subtitle'>Watch on Smart TVs, Playstation, Xbox, Chromecast, Apple TV, Blu-ray players, and more.</div>
@@ -38,7 +38,7 @@ function Home() {
         </div>
     </div>
 
-    <div className='movie-category row py-3'>
+    <div className='movie-category row'>
         <div className='movie-category-image'>
             <img src={frame1} className='img-fluid'></img>
         </div>
@@ -48,7 +48,7 @@ function Home() {
         </div>
     </div>
 
-    <div className='movie-category row py-3'>
+    <div className='movie-category row'>
         <div className='movie-category-detail'>
             <div className='movie-category-detail-title'>Watch everywhere.</div>
             <div className='movie-category-detail-subtitle'>Stream unlimited movies and TV shows on your phone, tablet, laptop, and TV without paying more.</div>
@@ -58,7 +58,7 @@ function Home() {
         </div>
     </div>
 
-    <div className='movie-category row py-3'>
+    <div className='movie-category row '>
         <div className='movie-category-image'>
             <img src={frame1} className='img-fluid'></img>
         </div>

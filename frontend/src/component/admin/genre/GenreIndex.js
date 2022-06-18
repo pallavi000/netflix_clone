@@ -5,10 +5,12 @@ import { Link } from 'react-router-dom'
 import "datatables.net-dt/js/dataTables.dataTables"
 import "datatables.net-dt/css/jquery.dataTables.min.css"
 import $ from 'jquery'
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import { Oval } from  'react-loader-spinner'
 
 function GenreIndex() {
     const [genre,setGenre] = useState([])
-
+    const [is_loader,setIs_loader] = useState(false)
     const config = {
       headers:{
         'access-token':localStorage.getItem('token')
@@ -16,9 +18,11 @@ function GenreIndex() {
     }
 
     async function getgenre(){
+      setIs_loader(true)
       const response = await axios.get('/genre',config)
       console.log(response.data)
       setGenre(response.data)
+      setIs_loader(false)
       setTimeout(()=>{
         $('#myTable').DataTable();
       },1000)
@@ -43,6 +47,15 @@ function GenreIndex() {
       }
     }
   return (
+    is_loader?(
+      <Oval
+      height="100"
+      width="100"
+      color='#94142C'
+      ariaLabel='loading'
+      secondaryColor="#ddd"
+    />
+    ):(
     <div className="content-wrapper">
         <div className="container ">
         <Link className="btn btn-secondary float-right mb-2" to='/admin/genre/add' > Add</Link>
@@ -78,6 +91,7 @@ function GenreIndex() {
     </div>
     </div>
     </div>
+    )
   )
 }
 

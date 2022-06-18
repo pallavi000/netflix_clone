@@ -20,16 +20,17 @@ function Header() {
   function logout(){
     localStorage.removeItem('token')
     localStorage.removeItem('user')
-    navigate('/')
+    window.location.href = '/'
   }
 
   return (
     user && user.role=='admin'?(
       <Sidebar/>
     ):user && user.plan=="premium"?(
-      <div className='container-fluid header-section' >
-        <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
-  <Link class="navbar-brand" to="/"><img src={logo} className="img-fluid"/></Link>
+      <div className='header-section' >
+        <nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
+        <Link class="navbar-brand logo-text" to="/">GPSView</Link>
+
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -56,10 +57,26 @@ function Header() {
   </div>
 </nav>
     </div>
+    ):user?(
+      <div className=' header-section' >
+        <nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
+        <Link class="navbar-brand logo-text" to="/">GPSView</Link>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+     
+    </ul>
+    <div className=' btn-signin' onClick={()=>logout()}>Logout</div>
+  </div>
+</nav>
+    </div>
     ):(
-    <div className='container-fluid header-section' >
-        <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
-  <a class="navbar-brand" href="#"><img src={logo} className="img-fluid"/></a>
+    <div className=' header-section' >
+        <nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
+  <Link class="navbar-brand logo-text" to="/">GPSView</Link>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>

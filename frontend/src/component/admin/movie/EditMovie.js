@@ -1,6 +1,11 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import * as Toastr from 'toastr';
+import '../../../../node_modules/toastr/build/toastr.css'
+
+
+
 
 function EditMovie(props) {
     const[name,setName] = useState('')
@@ -19,7 +24,9 @@ function EditMovie(props) {
     const[movie,setMovie] = useState({})
     const[feature,setFeature] = useState(false)
     const params = useParams()
-    const navigation = useNavigate()
+    const navigate = useNavigate()
+    const[isLoading,setIsLoading] = useState(false)
+
 
     const config={
         headers:{
@@ -66,6 +73,7 @@ function EditMovie(props) {
       
      async function editmovie(e){
        e.preventDefault()
+       setIsLoading(true)
         try {
          const data = new FormData()
          data.append('name',name)
@@ -87,16 +95,26 @@ function EditMovie(props) {
   
           var response = await axios.put('/movie/update/'+params.id,data,config)
           console.log(response.data)
-          navigation(-1)
+          setIsLoading(false)
+          navigate(-1)
+          Toastr.success('Updated Movie')
           
         } catch (error) {
           console.log(error.request.response)
+          Toastr.error(error.request.response)
+          setIsLoading(false)
+
         }
       }
 
   return (
     <div className="content-wrapper">
     <div className="container w-50 mx-auto">
+    <div className='card'>
+        <div className='card-body text-right'>
+            <button className='btn btn-info' onClick={()=>navigate(-1)}>Back</button>
+        </div>
+    </div>
     <div className='card py-5 px-3'>
     <h2 className='pl-3'>Edit Movie</h2>
       <div className='card-body'>
@@ -107,11 +125,16 @@ function EditMovie(props) {
     </div>
     <div className="form-group">
       <label htmlFor="formGroupExampleInput">Detail</label>
-      <input type="text" className="form-control color"  name="detail" defaultValue={movie.detail} onChange={(e)=>setDetail(e.target.value)}  id="formGroupExampleInput" required/>
+      <textarea type="text" className="form-control color"  name="detail" defaultValue={movie.detail} onChange={(e)=>setDetail(e.target.value)}  id="formGroupExampleInput" required rows={4}></textarea>
     </div>
-    <div className="form-group">
-      <label htmlFor="formGroupExampleInput">Image</label>
+    <div className="form-group row">
+    <div className='col-md-8'>
+    <label htmlFor="formGroupExampleInput">Image</label>
       <input type="file" className="form-control color"  name="image"   onChange={(e)=>setImage(e.target.files[0])}  id="formGroupExampleInput"  required/>
+    </div>
+     <div className='col-md-4 text-right'>
+      <img src={movie.image} className="img-fluid w-75"/>
+     </div>
     </div>
 
     <div className="form-group">
@@ -155,7 +178,7 @@ function EditMovie(props) {
    })}      
        </select>
     </div>
-    {movie.type=="series"?(
+    {type=="series"?(
       <>
       <div className="form-group">
       <label htmlFor="formGroupExampleInput">Season No</label>
@@ -175,14 +198,24 @@ function EditMovie(props) {
     ):(null)}
     
 
-    <div className="form-group">
-      <label htmlFor="formGroupExampleInput">Upload Video</label>
+    <div className="form-group row">
+    <div className='col-md-8'>
+    <label htmlFor="formGroupExampleInput">Upload Video</label>
       <input type="file" className="form-control color"  name="video" onChange={(e)=>setVideo(e.target.files[0])}  id="formGroupExampleInput" placeholder="No of Episode" required/>
     </div>
+    <div className='col-md-4'>
+      <video src={movie.video} controls={true} className="img-fluid"/>
+    </div>
+    </div>
 
-    <div className="form-group">
-      <label htmlFor="formGroupExampleInput">Upload Trailer</label>
+    <div className="form-group row">
+    <div className='col-md-8'>
+    <label htmlFor="formGroupExampleInput">Upload Trailer</label>
       <input type="file" className="form-control color"  name="trailer" onChange={(e)=>setTrailer(e.target.files[0])}  id="formGroupExampleInput" placeholder="Upload Trailer" required/>
+    </div>
+    <div className='col-md-4'>
+      <video src={movie.trailer} controls={true} className="img-fluid"/>
+    </div>
     </div>
 
     <div className='form-group'>
@@ -194,8 +227,13 @@ function EditMovie(props) {
     )}
       <span>Feature this {movie.type}</span>
     </div>
-    
-   <button type="submit" className="btn btn-primary">Submit</button>
+    {isLoading?(
+      <button type="submit" className="btn btn-start loading-btn" disabled>Submit</button>
+
+    ):(
+      <button type="submit" className="btn btn-start">Submit</button>
+
+    )}
   </form>
       </div>
     </div>

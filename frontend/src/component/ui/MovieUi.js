@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 function MovieUi({movie}) {
   return (
@@ -43,6 +44,15 @@ function MovieUi({movie}) {
                    )}
           
         </div>
+
+
+        <div className='d-flex'>
+                <Link className='show-play' 
+                 to={'/video-player'}
+                 state={movie.video}
+                ><i class="fa-solid fa-play mr-2"></i> Play</Link>
+                <div className='show-more-info'> <i class="fa-solid fa-circle-info mr-2"></i>More-info</div>
+            </div>
     </div>
 
     </div>

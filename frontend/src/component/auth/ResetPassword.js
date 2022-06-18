@@ -5,6 +5,8 @@ import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 function ResetPassword() {
     const[newPassword,setNewPassword] = useState('')
     const[confirmPassword,setConfirmPassword] = useState('')  
+    const[isLoading,setIsLoading] = useState(false)
+
     
     const location = useLocation()
     var verifyKey= location.search.replace('?code=','')
@@ -37,6 +39,7 @@ function ResetPassword() {
     async function resetpassword(e){
         try {
             e.preventDefault()
+            setIsLoading(true)
         const data={
             newPassword,
             confirmPassword,
@@ -45,13 +48,12 @@ function ResetPassword() {
 
         var response = await axios.post('/user/change/password',data)
         console.log(response.data)
+        setIsLoading(false)
             
         } catch (error) {
             console.log(error.request.response)
+            setIsLoading(false)
         }
-        
-
-
     }
 
 
@@ -67,7 +69,11 @@ function ResetPassword() {
         <div className='form-group'>
         <input type="password" onChange={(e)=>setConfirmPassword(e.target.value)} placeholder='Confirm Password' required/>
         </div>
-        <button className='btn-login'>Submit</button>
+        {isLoading?(
+            <button className='btn-login loading-btn'>Submit</button>
+        ):(
+            <button className='btn-login'>Submit</button>
+        )}
         </form>
        
     </div>

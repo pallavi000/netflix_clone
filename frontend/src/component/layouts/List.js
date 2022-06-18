@@ -73,7 +73,7 @@ const[itemsCountPerPage,setItemsContPerPage] = useState(12)
     
         <div className='movie-top-section'>
             <div className='movie-header'>My List</div>
-            <div className='start-btn-section row mt-3 w-50'>
+            <div className='start-btn-section row mt-3'>
             <input type="text" className='start-input' placeholder='Email address'></input>
             <button className='btn-start d-flex align-items-center '>Search <i class="fa-solid fa-angle-right ml-2"></i> </button>
         </div>

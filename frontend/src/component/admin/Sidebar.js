@@ -80,6 +80,14 @@ const navigate = useNavigate();
      </Link>
      <span class="tooltip">Subscription</span>
    </li>
+
+   <li>
+     <Link to="/admin/user-subscription">
+      <i class="fa fa-th" aria-hidden="true"></i>
+       <span class="links_name">User Subscription</span>
+     </Link>
+     <span class="tooltip">User Subscription</span>
+   </li>
  
    <li class="profile">
        <div class="profile-details">

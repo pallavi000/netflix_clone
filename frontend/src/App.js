@@ -1,7 +1,8 @@
 import { toHaveFormValues } from '@testing-library/jest-dom/dist/matchers';
 import { typeImplementation } from '@testing-library/user-event/dist/type/typeImplementation';
 import axios from 'axios';
-import {BrowserRouter as Router,Routes,Route} from 'react-router-dom'
+import { useEffect, useState } from 'react';
+import {BrowserRouter as Router,Routes,Route, useLocation} from 'react-router-dom'
 import Dashboard from './component/admin/dashboard/Dashboard';
 import CreateGenre from './component/admin/genre/CreateGenre';
 import EditGenre from './component/admin/genre/EditGenre';
@@ -18,6 +19,7 @@ import SuscriptionIndex from './component/admin/subscription/SuscriptionIndex';
 import Table from './component/admin/Table';
 import EditUser from './component/admin/user/EditUser';
 import IndexUser from './component/admin/user/IndexUser';
+import UserSubscription from './component/admin/UserSubscription/UserSubscription';
 import ChnagePassword from './component/auth/ChnagePassword';
 import ForgotPassword from './component/auth/ForgotPassword';
 import ResetPassword from './component/auth/ResetPassword';
@@ -36,22 +38,43 @@ import ShowDetail from './component/layouts/ShowDetail';
 import Shows from './component/layouts/Shows';
 import Subscription from './component/layouts/Subscription';
 import TV from './component/layouts/TV';
+import VideoPlayer from './component/layouts/VideoPlayer';
+import NotFound from './component/ui/NotFound';
 
 axios.defaults.baseURL="http://localhost:5000/api"
 
-function App() {
+
+function App(props) {
+
+
+  const user = JSON.parse(localStorage.getItem('user'))
+    const token = localStorage.getItem('token')
+
+    console.log('helloooooo')
+  
+
+
   return (
     <div className="App">
       <Router>
       <Header/>
         <Routes>
+        {user && user.plan=="premium"?(
+          <Route exact path='/' element={<Shows/>}/>
+
+        ):(
           <Route exact path='/' element={<Home/>}/>
+
+        )}
+
           <Route exact path="/sign-in" element={<SignIn/>}/>
           <Route exact path="/sign-up" element={<SignUp/>}/>
           <Route exact path="/account" element={<Account/>}/>
           <Route exact path="/change-password" element={<ChnagePassword/>}/>
           <Route exact path="/forgot-password" element={<ForgotPassword/>}/>
           <Route exact path="/reset-password" element={<ResetPassword/>}/>
+
+          <Route exact path="/video-player" element={<VideoPlayer/>}/>
           <Route exact path="/show" element={<UserProtected/>}>
           <Route exact path="/show" element={<Shows/>}/>
           </Route>
@@ -117,7 +140,10 @@ function App() {
             <Route exact path="/admin/subscription/create" element={<AdminProtected/>} >
               <Route exact path="/admin/subscription/create" element={<CreateSubscription/>}/>
             </Route>
-
+            <Route exact path="/admin/user-subscription" element={<AdminProtected/>} >
+              <Route exact path="/admin/user-subscription" element={<UserSubscription/>}/>
+            </Route>
+            <Route path="*" element={<NotFound/>}/>
         </Routes>
         <Footer/>
       </Router>

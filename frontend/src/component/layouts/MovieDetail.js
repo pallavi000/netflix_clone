@@ -48,7 +48,9 @@ function MovieDetail() {
       />
       ):(
         movie.type=="movie" ? (
+            <>
             <MovieUi movie={movie}/>
+            </>
         ):(
             <ShowUi movie={movie}/>
         )

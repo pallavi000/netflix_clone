@@ -58,7 +58,7 @@ async function getUser(){
             {user.plan=="free"?(
                     <>
                     <div className='col-md-6 account-section-item'>No Streaming Plan</div>
-                                    <Link className='col-md-6 account-section-link' to=''>Add Streaming Plan</Link>
+                                    <Link className='col-md-6 account-section-link' to='/subscription'>Add Streaming Plan</Link>
                     </>
             ):(
                 <>

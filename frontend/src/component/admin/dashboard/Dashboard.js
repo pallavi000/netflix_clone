@@ -1,15 +1,72 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect, useRef} from 'react'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import { Oval } from  'react-loader-spinner'
+import * as echarts from 'echarts';
+import $ from 'jquery'
+
 
 function Dashboard() {
   const [latest,setLatest] = useState([])
   const[popular,setPopular] = useState([])
   const[users,setUsers]= useState([])
+  const [is_loader,setIs_loader] = useState(false)
+  const [data,setData] = useState([])
+  const[totalUser,setTotalUser]= useState(0)
+  const[totalMovies,setTotalMovies]= useState(0)
+  const[totalSeries,setTotalSeries]= useState(0)
+  const[totalGenre,setTotalGenre]= useState(0)
+  const ref= useRef()
+  
+  
 
   useEffect(()=>{
     getData()
   },[])
+
+ function makePieChart() {
+    var div = document.querySelector('.piechart')
+    var myChart = echarts.init(div);
+  var option;
+  option = {
+    title: {
+      text: 'User Types',
+      left: 'center'
+    },
+    tooltip: {
+      trigger: 'item'
+    },
+    legend: {
+      orient: 'vertical',
+      left: 'left'
+    },
+    series: [
+      {
+        name: 'Access From',
+        type: 'pie',
+        radius: '50%',
+        data: data,
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: 'rgba(0, 0, 0, 0.5)'
+          }
+        }
+      }
+    ]
+  };
+  myChart.setOption(option);
+  
+ }
+
+ useEffect(() => {
+    makePieChart()
+ }, [data])
+ 
+
+ 
 
   const config={
     headers:{
@@ -18,26 +75,61 @@ function Dashboard() {
   }
 
   async function getData(){
+    setIs_loader(true)
     try {
       const response = await axios.get('/frontend/latest/dashboard',config)
       console.log(response.data)
       setLatest(response.data.movies)
       setPopular(response.data.popular)
       setUsers(response.data.users)
+      setTotalUser(response.data.totalUser)
+      setTotalMovies(response.data.totalMovie)
+      setTotalGenre(response.data.totalGenre)
+      setTotalSeries(response.data.totalSeries)
+      setData([
+        {
+          name:'Free User',
+          value:response.data.freeUser
+
+        },
+        {
+          name:'Premium User',
+          value:response.data.premiumUser
+        }
+      ])
+      setIs_loader(false)
+      makePieChart()
     } catch (error) {
-      console.log(error.request.response)
+
+      console.log(error.message)
+      setIs_loader(false)
     }
   }
 
+  const defaultLabelStyle = {
+    fontSize: '5px',
+    fontFamily: 'sans-serif',
+  };
+
   return (
-  
+    is_loader?(
+      <Oval
+      height="100"
+      width="100"
+      color='#94142C'
+      ariaLabel='loading'
+      secondaryColor="#ddd"
+    />
+    ):(
         <div className="content-wrapper">
+
+        <div className='piechart' ref={ref} style={{height:'400px'}}></div>
 
           <div class="dash-cards">
           <div class="dash-card-single">
             <div>
-              <h1>54</h1>
-              <span>Customers</span>
+              <h1>{totalUser}</h1>
+              <span>Users</span>
             </div>
             <div>
               <i class="fa fa-user"></i>
@@ -46,31 +138,31 @@ function Dashboard() {
     
           <div class="dash-card-single">
             <div>
-              <h1>55</h1>
-              <span>Products</span>
+              <h1>{totalMovies}</h1>
+              <span>Movies</span>
             </div>
             <div>
-              <i class="fa fa-product-hunt" aria-hidden="true"></i>
-            </div>
-          </div>
-    
-          <div class="dash-card-single">
-            <div>
-              <h1>54</h1>
-              <span>Orders</span>
-            </div>
-            <div>
-              <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+            <i class="fa-solid fa-clapperboard"></i>
             </div>
           </div>
     
           <div class="dash-card-single">
             <div>
-              <h1>54</h1>
-              <span>Income</span>
+              <h1>{totalSeries}</h1>
+              <span>Series</span>
             </div>
             <div>
-              <i class="fa fa-money" aria-hidden="true"></i>
+            <i class="fa-solid fa-film"></i>
+            </div>
+          </div>
+    
+          <div class="dash-card-single">
+            <div>
+              <h1>{totalGenre}</h1>
+              <span>Genre</span>
+            </div>
+            <div>
+              <i class="fa fa-th" aria-hidden="true"></i>
             </div>
           </div>
         </div>
@@ -188,7 +280,7 @@ function Dashboard() {
         </div>
         </div>
 
-
+    )
   )
 }
 

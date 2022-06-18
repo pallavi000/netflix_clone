@@ -1,14 +1,15 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-
 import "datatables.net-dt/js/dataTables.dataTables"
 // import "datatables.net-dt/css/jquery.dataTables.min.css"
 import $ from 'jquery'
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import { Oval } from  'react-loader-spinner'
 
 function SuscriptionIndex() {
     const[subscriptions,setSubscriptions] = useState([])
-
+    const [is_loader,setIs_loader] = useState(false)
     useEffect(() => {
     getSubscription()
     }, [])
@@ -21,6 +22,7 @@ function SuscriptionIndex() {
 
    async function getSubscription(){
         try {
+          setIs_loader(true)
             const response = await axios.get('/frontend/subscription',config)
             console.log(response.data)
             setSubscriptions(response.data)
@@ -28,6 +30,7 @@ function SuscriptionIndex() {
             setTimeout(()=>{
               $('#myTable').DataTable();
             },1000)
+            setIs_loader(false)
         } catch (error) {
             console.log(error.request.response)
             
@@ -47,6 +50,15 @@ function SuscriptionIndex() {
     }
     
   return (
+    is_loader?(
+      <Oval
+      height="100"
+      width="100"
+      color='#94142C'
+      ariaLabel='loading'
+      secondaryColor="#ddd"
+    />
+    ):(
     <div className="content-wrapper">
         <div className="container ">
         <Link className="btn btn-secondary float-right mb-2" to='/admin/subscription/create' > Add</Link>
@@ -87,7 +99,9 @@ function SuscriptionIndex() {
     </div>
     </div>
     </div>
+    )
   )
 }
 
 export default SuscriptionIndex
+

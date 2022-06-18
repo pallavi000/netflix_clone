@@ -1,11 +1,14 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import {Link, useNavigate} from 'react-router-dom'
+import * as Toastr from 'toastr';
+import '../../../node_modules/toastr/build/toastr.css'
 
 function SignUp() {
 const[username,setUsername] = useState('')
 const[email,setEmail] = useState('')
 const[password,setPassword] = useState('')
+const[isLoading,setIsLoading] = useState(false)
 
 const navigate = useNavigate()
 
@@ -13,19 +16,41 @@ useEffect(()=>{
 setEmail(localStorage.getItem('email'))
 },[])
 
+useEffect(() => {
+  if(localStorage.getItem('token')){
+    try {
+     const user = JSON.parse(localStorage.getItem('user'))
+       if(user.role=='admin'){
+          navigate('/admin/dashboard')
+       }else{
+         navigate('/')
+       }
+    } catch (error) {
+      navigate('/')
+    
+    }
+
+  }
+ }, [])
+
 async function register(e){
   try {
     e.preventDefault()
+    setIsLoading(true)
     const data={
       username,
       email,
       password
     }
     const response = await axios.post('/user/register',data)
-    console.log(response.data)
-    navigate('/sign-in')
+    localStorage.setItem("token",response.data.token)
+    localStorage.setItem('user',JSON.stringify(response.data.user))
+    navigate('/subscription')
+    setIsLoading(false)
   } catch (error) {
     console.log(error.request.response)
+    Toastr.error(error.request.response)
+    setIsLoading(false)
   }
  
 }
@@ -42,9 +67,13 @@ async function register(e){
         <input type="text" placeholder='Email or phone number' defaultValue={email} onChange={(e)=>setEmail(e.target.value)}/>
         </div>
         <div className='form-group'>
-        <input type="text" placeholder='Password' onChange={(e)=>setPassword(e.target.value)}/>
+        <input type="password" placeholder='Password' onChange={(e)=>setPassword(e.target.value)}/>
         </div>
-        <button className='btn-login'>Sign Up</button>
+        {isLoading?(
+          <button className='btn-login loading-btn'>Sign Up</button>
+        ):(
+          <button className='btn-login'>Sign Up</button>
+        )}
         <div className='d-flex justify-content-between align-items-center'>
             <div className='remember-me'>Remember me</div>
             <div className='remember-me'>Need help?</div>

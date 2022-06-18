@@ -1,6 +1,8 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import { Oval } from  'react-loader-spinner'
 
 
 import "datatables.net-dt/js/dataTables.dataTables"
@@ -10,6 +12,7 @@ import $ from 'jquery'
 
 function MovieIndex() {
   const[movies,setMovies] = useState([])
+  const [is_loader,setIs_loader] = useState(false)
 
   useEffect(() => {
    getmovies()
@@ -23,13 +26,14 @@ function MovieIndex() {
 
  async  function getmovies(){
 try {
+  setIs_loader(true)
   const response = await axios.get('/movie',config)
   console.log(response.data)
   setMovies(response.data)
   setTimeout(()=>{
     $('#myTable').DataTable();
   },1000)
-
+setIs_loader(false)
 } catch (error) {
   console.log(error.request.response)
 }
@@ -48,6 +52,15 @@ try {
     }
   }
   return (
+    is_loader?(
+      <Oval
+      height="100"
+      width="100"
+      color='#94142C'
+      ariaLabel='loading'
+      secondaryColor="#ddd"
+    />
+    ):(
     <div className="content-wrapper">
         <div className="">
         <Link className="btn btn-secondary float-right mb-2" to='/admin/movie/add' > Add</Link>
@@ -103,6 +116,7 @@ try {
     </div>
     </div>
     </div>
+    )
   )
 }
 

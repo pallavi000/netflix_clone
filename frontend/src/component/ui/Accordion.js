@@ -35,7 +35,7 @@ function Accordion() {
         return(
             <div class="card w-75 mx-auto mb-2">
                           <div class="card-header" id={`faqhead${i}`}>
-                              <a href="#" class="btn btn-header-link" data-toggle="collapse" data-target={`#faq${i}`}
+                              <a href="#" class="btn btn-header-link collapsed" data-toggle="collapse" data-target={`#faq${i}`}
                               aria-expanded="true" aria-controls={`#faq${i}`}>{faq.q}</a>
                           </div>
   
