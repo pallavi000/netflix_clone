@@ -6,7 +6,7 @@ const router = express.Router()
 
 router.get('/',auth,async(req,res)=>{
     try {
-        const list = await Watch.find({'user_id':req.user._id,}).populate('movie_id').populate('user_id')
+        const list = await Watch.find({'user_id':req.user._id,}).populate('movie_id').populate('user_id').sort('-_id')
         res.json(list)   
     } catch (error) {
         res.status(500).json(error.message) 
@@ -46,10 +46,6 @@ router.delete('/:id',auth,async(req,res)=>{
     }
 
 })
-
-
-
-
 
 
 module.exports= router

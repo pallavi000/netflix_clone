@@ -17,6 +17,7 @@ router.get('/',auth,async(req,res)=>{
 
 })
 
+
 router.post('/add-movie',adminAuth, async(req,res)=>{
     try {
         let picture=' '
@@ -142,7 +143,7 @@ console.log(req.body)
 
 router.get('/:id',auth, async(req,res)=>{
     try {
-        const movie= await Movie.findById(req.params.id).populate('genre_id')
+        const movie= await Movie.findById(req.params.id)
         res.json(movie)
     } catch (error) {
         res.status(500).json(error.message)
@@ -194,10 +195,10 @@ router.put('/update/:id',auth,async(req,res)=>{
             }
 
             if(req.files.video){
-                const movie = req.files.video
+                const clip = req.files.video
                 var r = Math.random()
                 r= r.toString().replace('.','-')
-                const movieName = new Date().getDate()+r+'.'+movie.name.split('.').pop()
+                const movieName = new Date().getDate()+r+'.'+clip.name.split('.').pop()
                
 
                var  video = '/assets/movie/'+movieName
@@ -205,7 +206,7 @@ router.put('/update/:id',auth,async(req,res)=>{
 
                 var isError = false
 
-                movie.mv(uploadPath,function(error){
+                clip.mv(uploadPath,function(error){
                     if(error){
                         isError = error
                     }

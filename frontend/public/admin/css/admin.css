@@ -237,7 +237,7 @@
   z-index: 2;
   padding-left: 30px;
   padding-right: 30px;
-  padding-top: 10px;
+  padding-top: 3rem;
 }
 .sidebar.open ~ .content-wrapper{
   left: 250px;

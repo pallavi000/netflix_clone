@@ -5,10 +5,10 @@ const router = express.Router()
 
 router.get('/',adminAuth,async(req,res)=>{
     try {
-        const subscription= await Subscription.find()
+        const subscription= await Subscription.find().sort('-_id')
         res.json(subscription)
     } catch (error) {
-        res.status(500).json(erro.message)
+        res.status(500).json(error.message)
         
     }
 })

@@ -63,12 +63,12 @@ function EditUser(props) {
     <div className="content-wrapper">
     <div className="container w-50 mx-auto">
     <div className='card'>
-        <div className='card-body text-right'>
+        <div className='card-body text-right  d-flex justify-content-between align-items-center'>
+        <h2 className='pl-3'>Edit User</h2>
             <button className='btn btn-info' onClick={()=>navigate(-1)}>Back</button>
         </div>
     </div>
     <div className='card py-5 px-3'>
-    <h2 className='pl-3'>Edit User</h2>
         <div className='card-body'>
         <form onSubmit={(e)=>edituser(e)}>
     <div className="form-group">

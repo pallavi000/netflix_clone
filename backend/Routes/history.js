@@ -4,7 +4,7 @@ const router = express.Router()
 
 router.get('/',auth,async(req,res)=>{
     try {
-        const history = await History.find({'user_id':req.user._id})
+        const history = await History.find({'user_id':req.user._id}).sort('-_id')
         res.json(history)
         
     } catch (error) {

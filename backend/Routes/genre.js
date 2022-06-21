@@ -6,7 +6,7 @@ const Movie = require('../Model/Movies')
 
 router.get('/',adminAuth,async(req,res)=>{
     try {
-        const genre = await Genre.find()
+        const genre = await Genre.find().sort('-_id')
         res.json(genre)
         
     } catch (error) {

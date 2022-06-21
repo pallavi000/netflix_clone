@@ -111,26 +111,26 @@ function EditMovie(props) {
     <div className="content-wrapper">
     <div className="container w-50 mx-auto">
     <div className='card'>
-        <div className='card-body text-right'>
+        <div className='card-body text-right d-flex justify-content-between align-items-center'>
+        <h2 className='pl-3'>Edit Movie</h2>
             <button className='btn btn-info' onClick={()=>navigate(-1)}>Back</button>
         </div>
     </div>
     <div className='card py-5 px-3'>
-    <h2 className='pl-3'>Edit Movie</h2>
       <div className='card-body'>
       <form onSubmit={(e)=>editmovie(e)}>
     <div className="form-group">
       <label htmlFor="formGroupExampleInput">Movie Name</label>
-      <input type="text" className="form-control color"  name="name" defaultValue={movie.name} onChange={(e)=>setName(e.target.value)}  id="formGroupExampleInput"  required/>
+      <input type="text" className="form-control color"  name="name" defaultValue={movie.name} onChange={(e)=>setName(e.target.value)}  id="formGroupExampleInput"/>
     </div>
     <div className="form-group">
       <label htmlFor="formGroupExampleInput">Detail</label>
-      <textarea type="text" className="form-control color"  name="detail" defaultValue={movie.detail} onChange={(e)=>setDetail(e.target.value)}  id="formGroupExampleInput" required rows={4}></textarea>
+      <textarea type="text" className="form-control color"  name="detail" defaultValue={movie.detail} onChange={(e)=>setDetail(e.target.value)}  id="formGroupExampleInput"  rows={4}></textarea>
     </div>
     <div className="form-group row">
     <div className='col-md-8'>
     <label htmlFor="formGroupExampleInput">Image</label>
-      <input type="file" className="form-control color"  name="image"   onChange={(e)=>setImage(e.target.files[0])}  id="formGroupExampleInput"  required/>
+      <input type="file" className="form-control color"  name="image"   onChange={(e)=>setImage(e.target.files[0])}  id="formGroupExampleInput"/>
     </div>
      <div className='col-md-4 text-right'>
       <img src={movie.image} className="img-fluid w-75"/>
@@ -155,11 +155,11 @@ function EditMovie(props) {
     </div>
     <div className="form-group">
       <label htmlFor="formGroupExampleInput">Release Date</label>
-      <input type="date" className="form-control color" defaultValue={movie.release_date}  name="release_date" onChange={(e)=>setRelease_date(e.target.value)}  id="formGroupExampleInput" placeholder="Release date" required/>
+      <input type="date" className="form-control color" defaultValue={movie.release_date}  name="release_date" onChange={(e)=>setRelease_date(e.target.value)}  id="formGroupExampleInput" placeholder="Release date"/>
     </div>
     <div className="form-group">
       <label htmlFor="formGroupExampleInput">Duration</label>
-      <input type="text" className="form-control color"  defaultValue={movie.duration} name="release_date" onChange={(e)=>setDuration(e.target.value)}  id="formGroupExampleInput" placeholder="movie duration" required/>
+      <input type="text" className="form-control color"  defaultValue={movie.duration} name="release_date" onChange={(e)=>setDuration(e.target.value)}  id="formGroupExampleInput" placeholder="movie duration"/>
     </div>
 
     <div className="form-group">
@@ -182,17 +182,17 @@ function EditMovie(props) {
       <>
       <div className="form-group">
       <label htmlFor="formGroupExampleInput">Season No</label>
-      <input type="text" className="form-control color" defaultValue={movie.season_no} name="season_no" onChange={(e)=>setSeason_no(e.target.value)}  id="formGroupExampleInput" placeholder="Season No" required/>
+      <input type="text" className="form-control color" defaultValue={movie.season_no} name="season_no" onChange={(e)=>setSeason_no(e.target.value)}  id="formGroupExampleInput" placeholder="Season No"/>
     </div>
 
     <div className="form-group">
       <label htmlFor="formGroupExampleInput">No of Episode</label>
-      <input type="text" className="form-control color" defaultValue={movie.no_of_episode} name="no_of_episode" onChange={(e)=>setNo_of_episode(e.target.value)}  id="formGroupExampleInput" placeholder="No of Episode" required/>
+      <input type="text" className="form-control color" defaultValue={movie.no_of_episode} name="no_of_episode" onChange={(e)=>setNo_of_episode(e.target.value)}  id="formGroupExampleInput" placeholder="No of Episode"/>
     </div>
 
     <div className="form-group">
       <label htmlFor="formGroupExampleInput">Upload Videos</label>
-      <input type="file" className="form-control color"  name="videos" onChange={(e)=>setVideos(e.target.files[0])}  id="formGroupExampleInput" placeholder="No of Episode" required/>
+      <input type="file" className="form-control color"  name="videos" onChange={(e)=>setVideos(e.target.files[0])}  id="formGroupExampleInput" placeholder="No of Episode"/>
     </div>
       </>
     ):(null)}
@@ -201,7 +201,7 @@ function EditMovie(props) {
     <div className="form-group row">
     <div className='col-md-8'>
     <label htmlFor="formGroupExampleInput">Upload Video</label>
-      <input type="file" className="form-control color"  name="video" onChange={(e)=>setVideo(e.target.files[0])}  id="formGroupExampleInput" placeholder="No of Episode" required/>
+      <input type="file" className="form-control color"  name="video" onChange={(e)=>setVideo(e.target.files[0])}  id="formGroupExampleInput" placeholder="No of Episode"/>
     </div>
     <div className='col-md-4'>
       <video src={movie.video} controls={true} className="img-fluid"/>
@@ -211,7 +211,7 @@ function EditMovie(props) {
     <div className="form-group row">
     <div className='col-md-8'>
     <label htmlFor="formGroupExampleInput">Upload Trailer</label>
-      <input type="file" className="form-control color"  name="trailer" onChange={(e)=>setTrailer(e.target.files[0])}  id="formGroupExampleInput" placeholder="Upload Trailer" required/>
+      <input type="file" className="form-control color"  name="trailer" onChange={(e)=>setTrailer(e.target.files[0])}  id="formGroupExampleInput" placeholder="Upload Trailer"/>
     </div>
     <div className='col-md-4'>
       <video src={movie.trailer} controls={true} className="img-fluid"/>

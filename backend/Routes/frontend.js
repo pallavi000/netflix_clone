@@ -58,14 +58,14 @@ router.post('/history',auth,async(req,res)=>{
 
 router.get('/genre/all',auth,async(req,res)=>{
     try {
-        const genres = await Genre.find()
+        const genres = await Genre.find().sort('-_id')
         const feature = await Movie.findOne({'feature':true}).sort('-_id')
         const history = await History.find({'user_id':req.user._id}).populate('movie_id').limit(4)
         
         var arr=[]
         var wait = genres.map(async genre=>{
             genre = genre.toObject()
-            genre.movies = await Movie.find({'genre_id':genre._id}).limit(4)
+            genre.movies = await Movie.find({'genre_id':genre._id}).limit(4).sort('-_id')
             arr.push(genre)
         })
         await Promise.all(wait)
@@ -82,14 +82,14 @@ router.post("/movie/type",auth,async(req,res)=>{
         var pageno = req.body.pageno-1
         var itemsCountPerPage = req.body.itemsCountPerPage
 
-        const movies = await Movie.find({'type':req.body.type}).populate('genre_id').skip(pageno* itemsCountPerPage).limit(itemsCountPerPage)
+        const movies = await Movie.find({'type':req.body.type}).populate('genre_id').skip(pageno* itemsCountPerPage).limit(itemsCountPerPage).sort('-_id')
         var totalCount = await Movie.countDocuments({'type':req.body.type})
         
         var arr = []
 
         for (let movie of movies) {
             movie = movie.toObject()
-            var list = await Watch.findOne({'movie_id':movie._id,'user_id':req.user._id})
+            var list = await Watch.findOne({'movie_id':movie._id,'user_id':req.user._id}).sort('-_id')
             if(list){
                 movie.is_list = true
             } else {
@@ -103,13 +103,16 @@ router.post("/movie/type",auth,async(req,res)=>{
     }
 })
 
+
+
+
 router.post('/new/movies',auth,async(req,res)=>{
     try {
 
         var pageno = req.body.pageno-1
         var itemsCountPerPage = req.body.itemsCountPerPage
 
-        const movies = await Movie.find().sort({createdAt:-1}).skip(pageno* itemsCountPerPage).limit(itemsCountPerPage)
+        const movies = await Movie.find().sort({createdAt:-1}).skip(pageno* itemsCountPerPage).limit(itemsCountPerPage).sort('-_id')
         const totalCount = await Movie.countDocuments()
 
         var arr = []
@@ -135,7 +138,7 @@ router.post('/watchlist',auth,async(req,res)=>{
         var pageno = req.body.pageno-1
         var itemsCountPerPage = req.body.itemsCountPerPage
 
-        const list = await Watch.find({'user_id':req.user._id,}).populate('movie_id').populate('user_id').skip(pageno* itemsCountPerPage).limit(itemsCountPerPage)
+        const list = await Watch.find({'user_id':req.user._id,}).populate('movie_id').populate('user_id').skip(pageno* itemsCountPerPage).limit(itemsCountPerPage).sort('-_id')
 
         const totalCount = await Watch.countDocuments({'user_id':req.user._id})
 
@@ -146,7 +149,7 @@ router.post('/watchlist',auth,async(req,res)=>{
 })
 
 router.get('/subscription',auth,async(req,res)=>{
-    const subscription= await Subscription.find()
+    const subscription= await Subscription.find().sort('-_id')
     res.json(subscription)
 })
 
@@ -230,14 +233,11 @@ router.delete('/user/subscription/:id',auth,async(req,res)=>{
         user.plan="free"
         await subscription.delete()
         await user.save()
-       
         res.json(subscription)
     } catch (error) {
         res.json(error.message)
     }
 })
-
-
 
 
 module.exports = router

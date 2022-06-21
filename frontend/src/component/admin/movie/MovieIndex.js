@@ -99,9 +99,9 @@ setIs_loader(false)
             <td>{movie.stream}</td>
             <td>{movie.release_date}</td>
 
-            <td className='d-flex'>
-            <Link className="table-edit mr-3" to={`/admin/movie/edit/${movie._id}`}>Edit</Link>
-            <button className="btn btn-danger" onClick={(e)=>distroy(e,movie._id)} >Delete</button>
+            <td >
+            <Link className="table-edit mr-3 d-inline-block" to={`/admin/movie/edit/${movie._id}`}>Edit</Link>
+            <button className="btn btn-danger d-inline-block" onClick={(e)=>distroy(e,movie._id)} >Delete</button>
             </td>
             
 
