@@ -28,9 +28,9 @@ A clone version of Netflix.Where user can enjoy the unlimited movies, shows per 
 
 ### Steps
 1. After cloning the project, inside frontend folder run ```npm install```
-2. Inside frontend folder Run ```npm start``````
+2. Inside frontend folder Run ```npm start```
 3. After cloning the project, inside backend folder run ```npm install```
-4. Inside backend folder Run ```node app.js`````
+4. Inside backend folder Run ```node app.js```
 
 ## Deployment
 Deployed with gh-pages at ..
